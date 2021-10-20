@@ -1,8 +1,20 @@
-body {
-  padding: 50px;
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+
+*{
+  font-family: 'Titillium Web', sans-serif;
+  font-weight: 300;
+}
+input {
+  text-align: center;
+  background: transparent;
 }
 
-a {
-  color: #00B7FF;
+.bg {
+  background: #56CCF2;  /* fallback for old browsers */
+  background: -webkit-linear-gradient(to right, #2F80ED, #56CCF2);  /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(to right, #2F80ED, #56CCF2); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+}
+
+::placeholder {
+  color: white;
+  opacity: 1; /* Firefox */
 }
