@@ -6,6 +6,7 @@ const redis = require('redis');
 const logger = require('morgan');
 
 // Set up port to listen on and routes
+const httpServer = http.createServer(app);
 httpServer.listen(3000);
 const indexRouter = require('./routes/index');
 
