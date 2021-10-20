@@ -10,7 +10,6 @@ httpServer.listen(3000);
 const indexRouter = require('./routes/index');
 
 const app = express();
-
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
