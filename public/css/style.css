@@ -1,4 +1,7 @@
-
+*{
+    font-family: 'Titillium Web', sans-serif;
+    font-weight: 300;
+}
 input {
     text-align: center;
     background: transparent;
