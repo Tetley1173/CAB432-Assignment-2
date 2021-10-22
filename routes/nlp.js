@@ -8,8 +8,8 @@ const router = express.Router();
 const spellCorrector = new SpellCorrector();
 spellCorrector.loadDictionary();
 
-// Set up a route that will process tweets, must be accest as a post request.
-router.post('/s-analyzer', function(req, res, next) {
+// Set up a route that will process tweets, must be accesed as a post request.
+router.post('/nlp', function(req, res, next) {
   // Take the body of the res and put it in a variable
   const { review } = req.body;
   // Following code breaks the text down into a usable form.
@@ -33,6 +33,7 @@ router.post('/s-analyzer', function(req, res, next) {
   const analyzer = new SentimentAnalyzer('English', PorterStemmer, 'afinn');
   const analysis = analyzer.getSentiment(filteredReview);
 
+  console.log('nlp output is: ' + analysis);
   // returns from -3 to 3 indicating sentiment results
   res.status(200).json({ analysis });
 });
