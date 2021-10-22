@@ -36,6 +36,8 @@ router.get('/search/', function(req, res, next) {
     if (result) {
       const resultJSON = JSON.parse(result);
       console.log("Served from Redis");
+      // Send result to nlp.js for processing
+      console.log(doNLP(result));
       res.render('index', { title: 'Twitter Analyser', topic : JSON.stringify(resultJSON) });
       
     } else { // Key does not exist in Redis store - serve from S3 and store in cache
@@ -53,6 +55,9 @@ router.get('/search/', function(req, res, next) {
 
           // Save the Twitter API response in Redis store
           redisClient.setex(`twitter:${topic}`, 3600, JSON.stringify({ source: 'Redis Cache', resultJSON, }));
+          
+          // Send result to nlp.js for processing
+          console.log(doNLP(result));
 
           res.render('index', { title: 'Twitter Analyser', topic : JSON.stringify(resultJSON) });
 
@@ -85,6 +90,9 @@ router.get('/search/', function(req, res, next) {
                   console.log("Successfully uploaded data to " + bucketName + "/" + s3Key);
               });
 
+              // Send result to nlp.js for processing
+              console.log(doNLP(result));
+
               // Render page from twitter API response
               res.render('index', { title: 'Twitter Analyser', topic : result });
             })
@@ -95,6 +103,31 @@ router.get('/search/', function(req, res, next) {
       });
     }
   });
+
+  function doNLP(tweets){
+
+    // May need to tidy tweets up so it is acceptable format, 
+    // or do a for each loop in nlp.js.
+    // The NLP is set up to filter crap so it may be ok.
+    const fetchParams = {
+      method: 'POST',
+      //url: ('/nlp'),
+      body: JSON.stringify({ tweets }),
+      headers: { 'Content-Type': 'application/json' } //new Headers(...)
+    }
+
+    axios('/nlp', fetchParams)
+      .then(res => res.json())
+      .then (({ sentiment }) => {
+        // Returns raw number for now, can include logic based on the number
+        return sentiment
+      })      
+    .catch(err => {
+      return 'There was an error while performing NLP!'
+    })
+    
+  }
+
 });
 
 module.exports = router;
