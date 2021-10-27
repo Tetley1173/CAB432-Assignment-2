@@ -4,7 +4,7 @@ block content
   .max-height.max-width.bg.d-flex.align-items-center.text-light.text-center
       .jumbotron.text-center.rounded.container.p-5.transparent
         h1 #{title}
-        p Welcome to the Twitter sentiment analyser created by Tom Mills and Shannon Tetley. Enter a topic to search for on Twitter and the Twitter Analyser will analyse Tweets it finds and will tell you Twitter communities sentiment towards that topic from that last 7 days.
+        p Welcome to the Twitter sentiment analyser created by Tom Mills and Shannon Tetley. Enter a topic to search for on Twitter and the Twitter Analyser will analyse Tweets it finds. It will then tell you what the Twitter communities sentiment towards that topic is from that last 7 days.
         .container.pt-5.text-light
           form.text-light(action='/search/' method='GET')
             input#topic.text-light.col-sm-10.m-2.border.border-light(type='text' name='topic' placeholder='. . .')
