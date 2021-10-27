@@ -136,17 +136,17 @@ router.get('/search/', function(req, res, next) {
 
     // Filter out junk that the Twitter endpoint generates.
     const noData = review.replace(/("data")+/g, '');
-    const noSource = noData.replace(/("Source":"Redis Cache")+/g, '');
+    const noSource = noData.replace(/("source":"Redis Cache")+/g, '');
     const noID = noSource.replace(/("id")+/g, '');
-    const noRT = noID.replace(/("text":RT)+/g, '');
+    const noRT = noID.replace(/("text":"RT)+/g, '');
     const noText = noRT.replace(/("text")+/g, '');
-    console.log(`NLP String junk removed: ${noText}`);
-    // const noHandle = noText.replace(/{@}+[a-zA-Z0-9]+[:, /s]/g, '');
-    // '"data"' then '"Source":"Redis Cache"' then '"id"' then '"text":RT' then  '@{text}' + ':' or ' '
+    const noHandle = noText.replace(/(@[a-zA-Z0-9]+[:|\s])/g, '');
+    const noMeta = noHandle.replace(/("meta".+("}}))$/g, '');
+    // console.log(`NLP String junk removed: ${noMeta}`);
 
     // Following code breaks the text down into a usable form.
     // apos will convert contractions to full words e.g. I'm to I am, doesn't to does not.
-    const lexedReview = aposToLexForm(review);
+    const lexedReview = aposToLexForm(noMeta);
     const casedReview = lexedReview.toLowerCase();
     const alphaOnlyReview = casedReview.replace(/[^a-zA-Z\s]+/g, '');
     // console.log(`alphaOnlyReview output is: ${alphaOnlyReview}`);
