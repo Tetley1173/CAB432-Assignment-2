@@ -3,7 +3,7 @@ extends layout
 block content
   .max-height.max-width.bg.d-flex.align-items-center.text-light.text-center
       .jumbotron.text-center.rounded.container.p-5.transparent
-        h1 Twitter Analyser
+        h1 #{title}
         p Welcome to the Twitter sentiment analyser created by Tom Mills and Shannon Tetley. Enter a topic to search for on Twitter and the Twitter Analyser will analyse Tweets it finds and will tell you Twitter communities sentiment towards that topic from that last 7 days.
         .container.pt-5.text-light
           form.text-light(action='/search/' method='GET')
@@ -12,19 +12,19 @@ block content
             input.text-light.btn.col-sm-8.border.border-light(type='submit' value='Search')
 
     .d-flex.justify-content-center.max-width.p-4
-      h3 Sentiment for #{topic} is #{sentiment }
+      h3 The Twitter sentiment score for #{topic} is: #{sentiment }
     - var angry;
     - var neutral;
     - var happy;
-    - if (sentiment < -0.2) {
+    - if (sentiment < -0.15) {
         - angry = 'flex';
         - neutral = 'none';
         - happy = 'none';
-    - } else if (sentiment >= -0.2 && sentiment <= 0.2){
+    - } else if (sentiment >= -0.15 && sentiment <= 0.15){
         - angry = 'none';
         - neutral = 'flex';
         - happy = 'none';
-    - } else if (sentiment > 0.2){
+    - } else if (sentiment > 0.15){
         - angry = 'none';
         - neutral = 'none';
         - happy = 'flex';
