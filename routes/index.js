@@ -73,7 +73,7 @@ router.get('/search/', function(req, res, next) {
           redisClient.setex(`twitter:${topic}`, 3600, JSON.stringify({ source: 'Redis Cache', resultJSON, }));
           
           // Send result to NLP function for processing
-          const sentiment = NLP(resultJSON);
+          const sentiment = NLP(JSON.stringify(resultJSON));
           console.log('nlp output is: ' + sentiment);
 
           res.render('index', { title: 'Twitter Analyser', topic : topic, sentiment : sentiment.toFixed(2) });
@@ -130,9 +130,13 @@ router.get('/search/', function(req, res, next) {
   // and positive numbers represeting positive sentiment.
   function NLP(review) {
 
+    // Catch input errors
+    if ( typeof review != "string" ) {
+      console.log(`NLP input type is: ${typeof review}`);
+      return "0"
+    }
     // console.log('Raw NLP input is: ' + review);
-    // review = review;
-    console.log('NLP to sting input is: ' + review);
+    // console.log('NLP to sting input is: ' + review);
 
     // Filter out junk that the Twitter endpoint generates.
     const noData = review.replace(/("data")+/g, '');
@@ -142,7 +146,7 @@ router.get('/search/', function(req, res, next) {
     const noText = noRT.replace(/("text")+/g, '');
     const noHandle = noText.replace(/(@[a-zA-Z0-9]+[:|\s])/g, '');
     const noMeta = noHandle.replace(/("meta".+("}}))$/g, '');
-    // console.log(`NLP String junk removed: ${noMeta}`);
+    console.log(`NLP String junk removed: ${noMeta}`);
 
     // Following code breaks the text down into a usable form.
     // apos will convert contractions to full words e.g. I'm to I am, doesn't to does not.
