@@ -2,66 +2,62 @@ extends layout
 
 block content
   .max-height.max-width.bg.d-flex.align-items-center.text-light.text-center
-    .jumbotron.text-center.rounded.container.p-5.transparent
-      h1 Twitter Analyser
-      p Welcome to the Twitter sentiment analyser created by Tom Mills and Shannon Tetley. Enter a topic to search for on Twitter and the Twitter Analyser will analyse Tweets it finds and will tell you Twitter communities sentiment towards that topic from that last 7 days.
-      .container.pt-5.text-light
-        form.text-light(action='/search/' method='GET')
-          input#topic.text-light.col-sm-10.m-2.border.border-light(type='text' name='topic' placeholder='. . .')
-          br
-          input.text-light.btn.col-sm-8.border.border-light(type='submit' value='Search')
-  - if (loading){
-    p loading ...
-  - } else {
+      .jumbotron.text-center.rounded.container.p-5.transparent
+        h1 Twitter Analyser
+        p Welcome to the Twitter sentiment analyser created by Tom Mills and Shannon Tetley. Enter a topic to search for on Twitter and the Twitter Analyser will analyse Tweets it finds and will tell you Twitter communities sentiment towards that topic from that last 7 days.
+        .container.pt-5.text-light
+          form.text-light(action='/search/' method='GET')
+            input#topic.text-light.col-sm-10.m-2.border.border-light(type='text' name='topic' placeholder='. . .')
+            br
+            input.text-light.btn.col-sm-8.border.border-light(type='submit' value='Search')
+
     .d-flex.justify-content-center.max-width.p-4
-        h3 Sentiment for #{topic} is #{sentiment }
-      - var angry;
-      - var neutral;
-      - var happy;
-      - if (sentiment < -0.2) {
-          - angry = 'flex';
-          - neutral = 'none';
-          - happy = 'none';
-      - } else if (sentiment >= -0.2 && sentiment <= 0.2){
-          - angry = 'none';
-          - neutral = 'flex';
-          - happy = 'none';
-      - } else if (sentiment > 0.2){
-          - angry = 'none';
-          - neutral = 'none';
-          - happy = 'flex';
-      - }
+      h3 Sentiment for #{topic} is #{sentiment }
+    - var angry;
+    - var neutral;
+    - var happy;
+    - if (sentiment < -0.2) {
+        - angry = 'flex';
+        - neutral = 'none';
+        - happy = 'none';
+    - } else if (sentiment >= -0.2 && sentiment <= 0.2){
+        - angry = 'none';
+        - neutral = 'flex';
+        - happy = 'none';
+    - } else if (sentiment > 0.2){
+        - angry = 'none';
+        - neutral = 'none';
+        - happy = 'flex';
+    - }
 
-      .d-flex.justify-content-evenly
-        .card.d-flex.align-items-center(style='width: 20rem; display: #{angry} !important')
-              img.card-img-top.w-50.pt-3(src='../images/angry.png' alt='Negative')
-              .card-body
-                h5.card-title Negative 
-                p.card-text
-                  | People are generally unhappy with this topic
+    .d-flex.justify-content-evenly
+      .card.d-flex.align-items-center(style='width: 20rem; display: #{angry} !important')
+            img.card-img-top.w-50.pt-3(src='../images/angry.png' alt='Negative')
+            .card-body
+              h5.card-title Negative 
+              p.card-text
+                | People are generally unhappy with this topic
 
-        .card.d-flex.align-items-center(style='width: 20rem; display: #{neutral} !important')
-              img.card-img-top.w-50.pt-3(src='../images/neutral.png' alt='Neutral')
-              .card-body
-                h5.card-title Neutral 
-                p.card-text
-                  | People are on the fence with this topic.
+      .card.d-flex.align-items-center(style='width: 20rem; display: #{neutral} !important')
+            img.card-img-top.w-50.pt-3(src='../images/neutral.png' alt='Neutral')
+            .card-body
+              h5.card-title Neutral 
+              p.card-text
+                | People are on the fence with this topic.
 
-        .card.d-flex.align-items-center(style='width: 20rem; display: #{happy} !important')
-              img.card-img-top.w-50.pt-3(src='../images/happy.png' alt='Positive')
-              .card-body
-                h5.card-title Positive 
-                p.card-text
-                  | People love this topic!
+      .card.d-flex.align-items-center(style='width: 20rem; display: #{happy} !important')
+            img.card-img-top.w-50.pt-3(src='../images/happy.png' alt='Positive')
+            .card-body
+              h5.card-title Positive 
+              p.card-text
+                | People love this topic!
 
-  - }
-      
 
   // Footer
   footer.page-footer.font-small.blue.d-flex.justify-content-center.pt-5.pb-2
-    | Icons made by  
-    a(href='https://www.freepik.com' title='Freepik') Freepik 
-    |  from  
+    | Icons made by 
+    a(href='https://www.freepik.com' title='Freepik') Freepik
+    |  from 
     a(href='https://www.flaticon.com/' title='Flaticon') www.flaticon.com
     
   script(src='https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js' integrity='sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p' crossorigin='anonymous')
