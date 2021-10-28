@@ -51,8 +51,7 @@ router.get('/search/', function(req, res, next) {
       const resultJSON = JSON.parse(result);
       console.log("Served from Redis");
 
-      // Send result to nlp.js for processing
-      // console.log(doNLP(JSON.stringify(resultJSON)));
+      // Send result to NLP function for processing
       const sentiment = NLP(JSON.stringify(resultJSON));
       console.log('nlp output is: ' + sentiment);
 
@@ -124,12 +123,11 @@ router.get('/search/', function(req, res, next) {
     }
   });
 
-  // This needs error catching !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-  // Missing modules will crash the app!
   // Accepts a string of tweets.
   // Outputs a number representing the sentiment of the tweets.
   // Ranges from -3 to 3 with negative numbers representing negative sentiment
   // and positive numbers represeting positive sentiment.
+  // Tipical Twitter posts will produce between -0.4 and 0.4 but average -o.2 to 0.2
   function NLP(review) {
 
     // Catch input errors
@@ -137,8 +135,6 @@ router.get('/search/', function(req, res, next) {
       console.log(`NLP input type is: ${typeof review}`);
       return "0"
     }
-    // console.log('Raw NLP input is: ' + review);
-    // console.log('NLP to sting input is: ' + review);
 
     // Filter out junk that the Twitter endpoint generates.
     const noData = review.replace(/("data")+/g, '');
@@ -148,14 +144,12 @@ router.get('/search/', function(req, res, next) {
     const noText = noRT.replace(/("text")+/g, '');
     const noHandle = noText.replace(/(@[a-zA-Z0-9]+[:|\s])/g, '');
     const noMeta = noHandle.replace(/("meta".+("}}))$/g, '');
-    console.log(`NLP String junk removed: ${noMeta}`);
 
     // Following code breaks the text down into a usable form.
-    // apos will convert contractions to full words e.g. I'm to I am, doesn't to does not.
+    // apos will convert contractions to full words e.g. I'm => I am, doesn't => does not.
     const lexedReview = aposToLexForm(noMeta);
     const casedReview = lexedReview.toLowerCase();
     const alphaOnlyReview = casedReview.replace(/[^a-zA-Z\s]+/g, '');
-    // console.log(`alphaOnlyReview output is: ${alphaOnlyReview}`);
   
     // Tokenize the text into meaningful units that can be worked on.
     const { WordTokenizer } = natural;
