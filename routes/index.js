@@ -14,7 +14,8 @@ router.use(express.static(path.join(__dirname, 'public')));
 const spellCorrector = new SpellCorrector();
 spellCorrector.loadDictionary();
 
-// Note for Shannon: run this command to start redis: redis-server --service-start
+// Note redis must be running to prevent errors.
+// Run this command to start redis: redis-server --service-start (for windows 8)
 // Also remember to update the aws credentials file or bugs occur.
 
 // Create S3 bucket name
