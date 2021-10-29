@@ -140,12 +140,13 @@ router.get('/search/', function(req, res, next) {
     // Filter out junk that the Twitter endpoint generates.
     const noData = review.replace(/("data")+/g, '');
     const noSource = noData.replace(/("source":"Redis Cache")+/g, '');
-    const noID = noSource.replace(/("id")+/g, '');
+    const noS3 = noSource.replace(/("source":"S3")+/g, '');
+    const noID = noS3.replace(/("id")+/g, '');
     const noRT = noID.replace(/("text":"RT)+/g, '');
     const noText = noRT.replace(/("text")+/g, '');
     const noHandle = noText.replace(/(@[a-zA-Z0-9]+[:|\s])/g, '');
-    const noMeta = noHandle.replace(/("meta".+("}}))$/g, '');
-
+    const noMeta = noHandle.replace(/("meta".+("}}))/g, '');
+    
     // Following code breaks the text down into a usable form.
     // apos will convert contractions to full words e.g. I'm => I am, doesn't => does not.
     const lexedReview = aposToLexForm(noMeta);
